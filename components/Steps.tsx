@@ -12,12 +12,7 @@ interface Step {
   clearTime: string;
 }
 
-const StepsSection = ({
-  steps,
-}: {
-  steps: Step[];
-  goalId: string | undefined | string[];
-}) => {
+const StepsSection = ({ steps }: { steps: Step[] }) => {
   return (
     <section className="text-gray-600 body-font">
       <div className="container px-5 py-24 mx-auto">

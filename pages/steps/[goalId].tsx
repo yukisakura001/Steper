@@ -74,6 +74,7 @@ const Step = () => {
       });
       router.reload();
     } catch (e) {
+      console.error(e);
       alert("正しくありません");
     }
   };
@@ -89,6 +90,7 @@ const Step = () => {
       });
       router.reload();
     } catch (e) {
+      console.error(e);
       alert("正しくありません");
     }
   };
@@ -100,6 +102,7 @@ const Step = () => {
         await apiClient.delete(`/posts/goal_delete/${goalId}`);
         router.push("/");
       } catch (e) {
+        console.error(e);
         alert("正しくありません");
       }
     }
