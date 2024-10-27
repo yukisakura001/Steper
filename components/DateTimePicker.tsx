@@ -261,7 +261,7 @@ const DateTimePicker = forwardRef<HTMLInputElement, DateTimePickerProps>(
                         isToday && !isSelected ? "border border-blue-500" : ""
                       }`}
                       disabled={!day}
-                      aria-pressed={isSelected}
+                      aria-pressed={isSelected ? "true" : undefined}
                     >
                       {day ? day.getDate() : ""}
                     </button>
