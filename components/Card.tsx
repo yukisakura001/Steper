@@ -11,7 +11,7 @@ type CardProps = {
 export default function Card({ card }: CardProps) {
   // deadLineをDateオブジェクトとして取得
   const deadline = new Date(card.deadLine);
-  const orizinDate = deadline.toLocaleString();
+  const orizinDate = deadline.toLocaleString("ja-JP");
 
   // 現在時刻と比較
   const now = new Date();
