@@ -21,6 +21,7 @@ const Signup = () => {
       });
       router.push("/login"); //リダイレクト
     } catch (e) {
+      console.error(e);
       alert("正しくありません");
     }
   };

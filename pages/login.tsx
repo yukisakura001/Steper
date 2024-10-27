@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import apiClient from "@/lib/apiClient";
-import { useRouter } from "next/router";
 import { useAuth } from "@/context/auth";
 
 const Login = () => {
@@ -9,8 +8,6 @@ const Login = () => {
   const [password, setPassword] = useState<string>("");
 
   const { login } = useAuth(); //AuthProviderのlogin関数を使う
-
-  const router = useRouter(); //リダイレクトするための関数
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,6 +20,7 @@ const Login = () => {
       const token = response.data.token;
       login(token); //AuthProviderのlogin関数を使う
     } catch (e) {
+      console.error(e);
       alert("正しくありません");
     }
   };

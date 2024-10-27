@@ -34,6 +34,7 @@ export default function GoalSet() {
       });
       router.push("/"); // リダイレクト
     } catch (e) {
+      console.error(e);
       alert("正しくありません");
     }
   };
