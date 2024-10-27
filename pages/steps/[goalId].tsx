@@ -65,7 +65,7 @@ const Step = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const deadlineInUTC = new Date(deadline).toLocaleString("ja-JP");
+    const deadlineInUTC = new Date(deadline).toLocaleString();
     try {
       await apiClient.put(`/posts/goal_update/${goalId}`, {
         content: content,
@@ -81,7 +81,7 @@ const Step = () => {
 
   const handleSubmitStep = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const deadlineInUTCS = new Date(deadlineS).toLocaleString("ja-JP");
+    const deadlineInUTCS = new Date(deadlineS).toLocaleString();
     try {
       await apiClient.post(`/posts/step_post/${goalId}`, {
         content: contentS,
@@ -150,7 +150,7 @@ const Step = () => {
             {goal.content}
           </h1>
           <p className="lg:w-1/2 w-full leading-relaxed text-base">
-            期限：{new Date(goal.deadLine).toLocaleString("ja-JP")}
+            期限：{new Date(goal.deadLine).toLocaleString()}
           </p>
           <p className="text-md font-medium text-purple-600 mt-5">残り時間</p>
 
