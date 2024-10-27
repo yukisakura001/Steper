@@ -57,7 +57,7 @@ const StepCard = ({
   const stepEnd = async () => {
     if (step.clearTime === "1970-01-01T00:00:00.000Z") {
       await apiClient.put(`/posts/step_update/${step.id}`, {
-        clearTime: new Date().toLocaleString(),
+        clearTime: new Date().toString(),
       });
       router.reload();
       return;
@@ -170,7 +170,7 @@ const StepCard = ({
             <div>
               <h4 className="text-sm font-medium text-purple-400">期限</h4>
               <p className="text-gray-700">
-                {new Date(step.deadLine).toLocaleString()}
+                {new Date(step.deadLine).toString()}
               </p>
             </div>
             <div>
@@ -183,7 +183,7 @@ const StepCard = ({
             <p className="text-gray-700">
               {step.clearTime === "1970-01-01T00:00:00.000Z"
                 ? "未達成"
-                : new Date(step.clearTime).toLocaleString()}
+                : new Date(step.clearTime).toString()}
             </p>
           </div>
         </div>
