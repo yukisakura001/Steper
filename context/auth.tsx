@@ -1,6 +1,5 @@
 import apiClient from "@/lib/apiClient";
 import React, { useContext, ReactNode, useEffect, useState } from "react";
-import Cookies from "js-cookie"; // クッキー操作用のライブラリ（js-cookie）を使います
 import router from "next/router";
 
 interface AuthContextProps {
@@ -27,8 +26,8 @@ export const useAuth = () => {
   return useContext(AuthContext);
 };
 
-// クッキーのキー名を定義しておくと便利
-const AUTH_TOKEN_COOKIE = "auth_token";
+// ローカルストレージのキー名を定義
+const AUTH_TOKEN_KEY = "auth_token";
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<null | {
@@ -38,7 +37,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }>(null);
 
   useEffect(() => {
-    const token = Cookies.get(AUTH_TOKEN_COOKIE); // クッキーからトークンを取得
+    const token = localStorage.getItem(AUTH_TOKEN_KEY); // ローカルストレージからトークンを取得
     if (token) {
       apiClient.defaults.headers["Authorization"] = `Bearer ${token}`;
       apiClient
@@ -53,12 +52,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const login = async (token: string) => {
-    Cookies.set(AUTH_TOKEN_COOKIE, token, { expires: 31 });
+    localStorage.setItem(AUTH_TOKEN_KEY, token); // ローカルストレージにトークンを保存
     apiClient.defaults.headers["Authorization"] = `Bearer ${token}`;
     try {
-      apiClient.get("/users/find").then((response) => {
-        setUser(response.data.user);
-      });
+      const response = await apiClient.get("/users/find");
+      setUser(response.data.user);
     } catch (error) {
       alert(error);
     }
@@ -66,7 +64,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = () => {
-    Cookies.remove(AUTH_TOKEN_COOKIE); // クッキーからトークンを削除
+    localStorage.removeItem(AUTH_TOKEN_KEY); // ローカルストレージからトークンを削除
     setUser(null);
     delete apiClient.defaults.headers["Authorization"];
     router.push("/");

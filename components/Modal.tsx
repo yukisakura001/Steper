@@ -9,7 +9,6 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   useEffect(() => {
     if (isOpen) {
-      // モーダルが開いている間、背景のスクロールを無効化
       document.body.style.overflow = "hidden";
     } else {
       // モーダルが閉じられたら、スクロールを再有効化
