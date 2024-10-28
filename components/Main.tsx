@@ -57,15 +57,18 @@ const Main = () => {
             </h2>
           </div>
           <div className="container px-5 mx-auto">
-            <div className="flex flex-wrap -mx-4 -my-8">
+            <div className="flex flex-wrap justify-center">
               {steps?.map((step, index) => {
                 const associatedGoal = cards.find(
                   (goal) => goal.id === step.goalId
                 );
                 return (
-                  <div key={step.id} className="py-8 px-4 lg:w-1/3">
+                  <div
+                    key={step.id}
+                    className="py-8 px-4 w-full md:w-1/2 lg:w-1/3"
+                  >
                     <StepList
-                      stepIndex={index + 1} // 新しいプロップ名を使用
+                      stepIndex={index + 1}
                       content={step.content}
                       deadLine={step.deadLine}
                       rewards={step.reward}
