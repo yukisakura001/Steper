@@ -1,5 +1,6 @@
 import React from "react";
 import { FaGithub } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 export default function FootBar() {
   return (
@@ -9,7 +10,12 @@ export default function FootBar() {
           © 2024 Sterper
         </p>
         <span className="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
-          <FaGithub className="text-3xl" />
+          <a href="https://github.com/yukisakura001/Steper">
+            <FaGithub className="text-3xl" />
+          </a>
+          <a href="https://x.com/yukisakura001">
+            <FaXTwitter className="text-3xl" />
+          </a>
         </span>
       </div>
     </footer>
