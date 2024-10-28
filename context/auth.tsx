@@ -1,15 +1,18 @@
+// context/auth.tsx
 import apiClient from "@/lib/apiClient";
 import React, { useContext, ReactNode, useEffect, useState } from "react";
-import router from "next/router";
+import { useRouter } from "next/router";
+
+interface User {
+  id: number;
+  username: string;
+  email: string;
+}
 
 interface AuthContextProps {
-  //AuthContextPropsの型を定義
-  user: null | {
-    id: number;
-    username: string;
-    email: string;
-  };
-  login: (token: string) => void;
+  user: User | null;
+  loading: boolean;
+  login: (token: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -19,57 +22,68 @@ interface AuthProviderProps {
 
 const AuthContext = React.createContext<AuthContextProps>({
   user: null,
-  login: () => {},
+  loading: true,
+  login: async () => {},
   logout: () => {},
-}); //初期値
+});
 
 export const useAuth = () => {
-  return useContext(AuthContext); //useContextでAuthContextを返す
+  return useContext(AuthContext);
 };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  //childrenはこのタグの中にあるものを指す
-  const [user, setUser] = useState<null | {
-    id: number;
-    username: string;
-    email: string;
-  }>(null); //userの初期値をnullに設定。型はid,username,emailを持つオブジェクトかnull
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("auth_token"); //localStorageに保存されたtokenを取得
+    const token = localStorage.getItem("auth_token");
     if (token) {
-      apiClient.defaults.headers["Authorization"] = `Bearer ${token}`; //axiosのデフォルトヘッダーにtokenを設定
+      apiClient.defaults.headers["Authorization"] = `Bearer ${token}`;
       apiClient
         .get("/users/find")
         .then((response) => {
-          setUser(response.data.user); //ユーザー情報を取得 全体に共有するためにuseStateを使う
+          setUser(response.data.user);
         })
         .catch((error) => {
-          console.error(error); //エラーが出た場合はコンソールにエラーを表示
+          console.error("Authentication error:", error);
+          localStorage.removeItem("auth_token");
+          delete apiClient.defaults.headers["Authorization"];
+          setUser(null);
+        })
+        .finally(() => {
+          setLoading(false);
         });
+    } else {
+      setLoading(false);
     }
   }, []);
 
   const login = async (token: string) => {
-    localStorage.setItem("auth_token", token); //localStorageにtokenを保存
-    apiClient.defaults.headers["Authorization"] = `Bearer ${token}`; //ここも設定しないとログイン後のリクエストでエラーが出る
+    localStorage.setItem("auth_token", token);
+    apiClient.defaults.headers["Authorization"] = `Bearer ${token}`;
+    setLoading(true);
     try {
-      apiClient.get("/users/find").then((response) => {
-        //ログインするときにユーザー情報を取得
-        setUser(response.data.user); //ユーザー情報を取得 全体に共有するためにuseStateを使う
-      });
+      const response = await apiClient.get("/users/find");
+      setUser(response.data.user);
+      router.push("/");
     } catch (error) {
-      alert(error);
+      console.error("Login error:", error);
+      alert("ログインに失敗しました。");
+      logout();
+    } finally {
+      setLoading(false);
     }
-    router.push("/"); //ログイン後にリダイレクト
   };
-  const logout = () => {
-    localStorage.removeItem("auth_token"); //localStorageのtokenを削除
-    setUser(null); //ユーザー情報をnullにする
-    delete apiClient.defaults.headers["Authorization"]; //axiosのデフォルトヘッダーからtokenを削除
-    router.push("/"); //ログイン後にリダイレクト
-  };
-  const value = { user, login, logout }; //valueにloginとlogoutを入れる
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>; //AuthProviderでvalueを渡す
+  const logout = () => {
+    localStorage.removeItem("auth_token");
+    setUser(null);
+    delete apiClient.defaults.headers["Authorization"];
+    router.push("/");
+  };
+
+  const value = { user, loading, login, logout };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

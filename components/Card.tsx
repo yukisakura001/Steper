@@ -18,8 +18,8 @@ export default function Card({ card }: CardProps) {
   const isPast = deadline < now;
 
   // 条件に応じたクラス名を設定
-  const bgColor = isPast ? "bg-red-100" : "";
-  const hoverBgColor = isPast ? "hover:bg-red-200" : "hover:bg-gray-100";
+  const bgColor = isPast ? "bg-orange-100" : "";
+  const hoverBgColor = isPast ? "hover:bg-orange-200" : "hover:bg-gray-100";
 
   return (
     <div key={card.id} className="xl:w-1/3 sm:w-1/2 w-full p-4">
