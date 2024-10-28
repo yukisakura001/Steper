@@ -15,6 +15,12 @@ function Navbar() {
           <ul className="flex space-x-4">
             {user ? (
               <>
+                <Link
+                  href="/homePage"
+                  className="bg-white text-gray-900 py-2 px-3 rounded-lg font-medium"
+                >
+                  アプリページ
+                </Link>
                 <button
                   className="bg-white text-gray-900 py-2 px-3 rounded-lg font-medium"
                   onClick={logout}
