@@ -4,10 +4,14 @@ import { FaToolbox } from "react-icons/fa";
 import { IoPhonePortraitOutline } from "react-icons/io5";
 import { LuGoal } from "react-icons/lu";
 import { PiStepsDuotone } from "react-icons/pi";
+import Head from "next/head";
 
 const HomePage = () => {
   return (
     <div>
+      <Head>
+        <title>Steper</title>
+      </Head>
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
           <h1 className="sm:text-3xl text-2xl font-medium title-font text-center text-gray-900 mb-20">

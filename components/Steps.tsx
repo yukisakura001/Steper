@@ -77,7 +77,7 @@ const StepCard = ({
     } else if (deadLine < now) {
       return "bg-red-100";
     } else {
-      return "bg-white";
+      return "bg-gray-100";
     }
   };
 

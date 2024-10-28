@@ -18,8 +18,8 @@ export default function Card({ card }: CardProps) {
   const isPast = deadline < now;
 
   // 条件に応じたクラス名を設定
-  const bgColor = isPast ? "bg-orange-100" : "";
-  const hoverBgColor = isPast ? "hover:bg-orange-200" : "hover:bg-gray-100";
+  const bgColor = isPast ? "bg-red-200" : "bg-gray-100";
+  const hoverBgColor = isPast ? "hover:bg-red-300" : "hover:bg-gray-200";
 
   return (
     <div key={card.id} className="xl:w-1/3 sm:w-1/2 w-full p-4">
@@ -36,6 +36,9 @@ export default function Card({ card }: CardProps) {
           {/* 期限と未来の自分を表示(複数行可能) */}
           <p className="leading-relaxed text-base whitespace-pre-wrap">
             {card.future}
+          </p>
+          <p className="text-purple-600 font-medium title-font truncatp mt-2">
+            期限
           </p>
           <p className="leading-relaxed text-base">{orizinDate}</p>
           <Time deadLine={deadline} />
