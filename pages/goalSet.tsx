@@ -41,14 +41,11 @@ export default function GoalSet() {
 
   return (
     <div>
-      <div
-        style={{ height: "88vh" }}
-        className="flex flex-col justify-center sm:px-6 lg:px-8"
-      >
+      <div className="flex flex-col py-24 justify-center sm:px-6 lg:px-8">
         <Head>
           <title>目標新規作成</title>
         </Head>
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <div className=" sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="text-center text-3xl font-extrabold text-gray-900">
             目標を設定してください
           </h2>
