@@ -20,12 +20,12 @@ export default function Check() {
           alert("認証完了しました");
           router.push("/login");
         } else {
-          alert("認証失敗しました");
+          alert("認証失敗しました。もう一度登録してください");
           router.push("/signup");
         }
       } catch (e) {
         console.error(e);
-        alert("認証失敗しました");
+        alert("認証失敗しました。もう一度登録してください");
         router.push("/signup");
       }
     };
