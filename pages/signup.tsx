@@ -14,15 +14,22 @@ const Signup = () => {
     e.preventDefault();
     //新規登録APIをここに書く
     try {
-      await apiClient.post("/auth/register", {
+      const res = await apiClient.post("/auth/register", {
         username: username,
         email: email,
         password: password,
       });
-      router.push("/login"); //リダイレクト
+      if (res.status === 200) {
+        alert(
+          "認証メールを送信します。認証URLをクリックしてからログインしてください"
+        );
+        router.push("/login"); //リダイレクト
+      } else {
+        alert(res.statusText);
+      }
     } catch (e) {
       console.error(e);
-      alert("正しくありません");
+      alert("エラー");
     }
   };
 
