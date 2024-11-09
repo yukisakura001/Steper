@@ -4,7 +4,6 @@ import apiClient from "@/lib/apiClient";
 import { useRouter } from "next/router";
 
 const Signup = () => {
-  const [username, setUserame] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -15,7 +14,6 @@ const Signup = () => {
     //新規登録APIをここに書く
     try {
       const res = await apiClient.post("/auth/register", {
-        username: username,
         email: email,
         password: password,
       });
@@ -50,23 +48,6 @@ const Signup = () => {
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <form onSubmit={handleSubmit}>
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  お名前
-                </label>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  autoComplete="name"
-                  required
-                  onChange={(e) => setUserame(e.target.value)}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                />
-              </div>
               <div className="mt-6">
                 <label
                   htmlFor="email"
