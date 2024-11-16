@@ -2,7 +2,7 @@
 
 steper は目標達成をサポートする web アプリです。
 
-https://steper.vercel.app/
+https://www.steper.jp/
 
 # 技術スタック
 
