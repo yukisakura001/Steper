@@ -14,11 +14,11 @@ export default function App({ Component, pageProps }: AppProps) {
           property="og:description"
           content="目標達成を応援するwebアプリです。"
         />
-        <meta property="og:image" content="" />
         <meta
-          property="og:url"
+          property="og:image"
           content="https://steper.vercel.app//icon512_rounded.png"
         />
+        <meta property="og:url" content="https://steper.vercel.app" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Steper" />
         <meta
