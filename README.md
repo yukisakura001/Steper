@@ -1,10 +1,8 @@
 # Steper
 
-steperは目標達成をサポートするwebアプリです。
+steper は目標達成をサポートする web アプリです。
 
 https://steper.vercel.app/
-
-
 
 # 技術スタック
 
@@ -17,9 +15,11 @@ https://steper.vercel.app/
 ## バックエンド
 
 - Render
-  - Node,js (express)
-  - prisma
+  - Node.js (express)
+  - Prisma
 - supabase
+  - PostgreSQL
 
-# 開発経緯
+# バックエンド側のレポジトリ
 
+https://github.com/yukisakura001/Steper_back

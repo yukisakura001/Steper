@@ -76,7 +76,7 @@ const HomePage = () => {
             </div>
             <div className="flex-grow sm:text-left text-center mt-6 sm:mt-0">
               <h2 className="text-gray-900 text-lg title-font font-medium mb-2">
-                はじめに目標を設定しよう
+                はじめにゴール(目標)を設定しよう
               </h2>
               <p className="leading-relaxed text-base">
                 まず最初は自分の目指す目標を具体的に設定します。
