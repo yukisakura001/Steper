@@ -1,3 +1,4 @@
+// pages/Step.tsx
 import React, { useEffect, useState } from "react";
 import apiClient from "@/lib/apiClient";
 import { useRouter } from "next/router";
@@ -27,17 +28,21 @@ const Step = () => {
 
   // 目標の内容を管理する状態
   const [content, setContent] = useState<string>("");
+  const [contentChars, setContentChars] = useState<number>(0); // 文字数管理
+
   // 期限を管理する新しい状態
   const [deadline, setDeadline] = useState<string>("");
+
   // 未来の自分を管理する新しい状態
   const [future, setFuture] = useState<string>("");
+  const [futureChars, setFutureChars] = useState<number>(0); // 文字数管理
 
-  // 目標の内容を管理する状態
+  // ステップ作成用の状態
   const [contentS, setContentS] = useState<string>("");
-  // 期限を管理する新しい状態
+  const [contentSChars, setContentSChars] = useState<number>(0); // 文字数管理
   const [deadlineS, setDeadlineS] = useState<string>("");
-  // 未来の自分を管理する新しい状態
   const [reward, setReward] = useState<string>("");
+  const [rewardChars, setRewardChars] = useState<number>(0); // 文字数管理
   const [steps, setSteps] = useState([]);
 
   useEffect(() => {
@@ -52,8 +57,10 @@ const Step = () => {
         }
         setGoal(response.data);
         setContent(response.data.content || "");
+        setContentChars((response.data.content || "").length);
         setDeadline(response.data.deadLine || "");
         setFuture(response.data.future || "");
+        setFutureChars((response.data.future || "").length);
         setSteps(stepList.data);
       } catch (error) {
         console.error(error);
@@ -105,6 +112,40 @@ const Step = () => {
         console.error(e);
         alert("正しくありません");
       }
+    }
+  };
+
+  // ハンドラーで文字数をカウント（目標修正）
+  const handleContentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length <= 50) {
+      setContent(value);
+      setContentChars(value.length);
+    }
+  };
+
+  const handleFutureChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    if (value.length <= 300) {
+      setFuture(value);
+      setFutureChars(value.length);
+    }
+  };
+
+  // ハンドラーで文字数をカウント（ステップ作成）
+  const handleContentSChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length <= 50) {
+      setContentS(value);
+      setContentSChars(value.length);
+    }
+  };
+
+  const handleRewardChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    if (value.length <= 300) {
+      setReward(value);
+      setRewardChars(value.length);
     }
   };
 
@@ -175,16 +216,17 @@ const Step = () => {
             </button>
           </div>
 
-          {/* 最初のモーダル */}
+          {/* ステップ追加モーダル */}
           <Modal isOpen={isModalOpen} onClose={closeModal}>
             <h2 className="text-xl font-bold mb-4">ステップの設定</h2>
             <form onSubmit={handleSubmitStep}>
+              {/* ステップの入力フィールド */}
               <div>
                 <label
-                  htmlFor="content"
+                  htmlFor="contentS"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  ステップの設定
+                  ステップの設置
                 </label>
                 <input
                   id="contentS"
@@ -193,14 +235,18 @@ const Step = () => {
                   autoComplete="contentS"
                   required
                   value={contentS}
-                  onChange={(e) => setContentS(e.target.value)}
+                  onChange={handleContentSChange}
+                  maxLength={50} // 追加
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 />
+                <p className="mt-1 text-sm text-gray-500">
+                  {contentSChars}/50 文字
+                </p>
               </div>
-              {/* 未来の自分を入力 */}
+              {/* ご褒美を入力 */}
               <div className="mt-6">
                 <label
-                  htmlFor="future"
+                  htmlFor="reward"
                   className="block text-sm font-medium text-gray-700"
                 >
                   達成したときのご褒美
@@ -212,15 +258,19 @@ const Step = () => {
                   autoComplete="reward"
                   required
                   value={reward}
-                  onChange={(e) => setReward(e.target.value)}
+                  onChange={handleRewardChange}
+                  maxLength={300} // 追加
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 />
+                <p className="mt-1 text-sm text-gray-500">
+                  {rewardChars}/300 文字
+                </p>
               </div>
 
               {/* 期限の入力フィールド */}
               <div className="mt-6">
                 <label
-                  htmlFor="deadline"
+                  htmlFor="deadlineS"
                   className="block text-sm font-medium text-gray-700"
                 >
                   期限の設定
@@ -247,7 +297,7 @@ const Step = () => {
             </form>
           </Modal>
 
-          {/* 新しいモーダル */}
+          {/* 目標修正モーダル */}
           <Modal isOpen={isSecondModalOpen} onClose={closeSecondModal}>
             <div>
               <h2 className="text-xl font-bold mb-4">目標修正</h2>
@@ -267,9 +317,13 @@ const Step = () => {
                     autoComplete="content"
                     required
                     value={content}
-                    onChange={(e) => setContent(e.target.value)}
+                    onChange={handleContentChange}
+                    maxLength={50} // 追加
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                   />
+                  <p className="mt-1 text-sm text-gray-500">
+                    {contentChars}/50 文字
+                  </p>
                 </div>
                 {/* 未来の自分を入力 */}
                 <div className="mt-6">
@@ -286,9 +340,13 @@ const Step = () => {
                     autoComplete="future"
                     required
                     value={future}
-                    onChange={(e) => setFuture(e.target.value)}
+                    onChange={handleFutureChange}
+                    maxLength={300} // 追加
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                   />
+                  <p className="mt-1 text-sm text-gray-500">
+                    {futureChars}/300 文字
+                  </p>
                 </div>
 
                 {/* 期限の入力フィールド */}

@@ -5,7 +5,6 @@ import apiClient from "@/lib/apiClient";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 
-// DateTimePicker コンポーネントを動的にインポート（SSR無効）
 const DateTimePicker = dynamic(() => import("../components/DateTimePicker"), {
   ssr: false,
 });
@@ -13,12 +12,14 @@ const DateTimePicker = dynamic(() => import("../components/DateTimePicker"), {
 export default function GoalSet() {
   // 目標の内容を管理する状態
   const [content, setContent] = useState<string>("");
+  const [contentChars, setContentChars] = useState<number>(0);
 
   // 期限を管理する新しい状態
   const [deadline, setDeadline] = useState<string>("");
 
   // 未来の自分を管理する新しい状態
   const [future, setFuture] = useState<string>("");
+  const [futureChars, setFutureChars] = useState<number>(0);
 
   const router = useRouter(); // リダイレクト用
 
@@ -39,6 +40,23 @@ export default function GoalSet() {
     }
   };
 
+  // ハンドラーで文字数をカウント
+  const handleContentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value.length <= 50) {
+      setContent(value);
+      setContentChars(value.length);
+    }
+  };
+
+  const handleFutureChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value;
+    if (value.length <= 300) {
+      setFuture(value);
+      setFutureChars(value.length);
+    }
+  };
+
   return (
     <div>
       <div className="flex flex-col py-24 justify-center sm:px-6 lg:px-8">
@@ -56,7 +74,7 @@ export default function GoalSet() {
               {/* 目標の入力フィールド */}
               <div>
                 <label
-                  htmlFor="name"
+                  htmlFor="content"
                   className="block text-sm font-medium text-gray-700"
                 >
                   目標の設置
@@ -68,10 +86,15 @@ export default function GoalSet() {
                   autoComplete="content"
                   required
                   value={content}
-                  onChange={(e) => setContent(e.target.value)}
+                  onChange={handleContentChange}
+                  maxLength={50} // 追加
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 />
+                <p className="mt-1 text-sm text-gray-500">
+                  {contentChars}/50 文字
+                </p>
               </div>
+
               {/* 未来の自分を入力 */}
               <div className="mt-6">
                 <label
@@ -86,9 +109,14 @@ export default function GoalSet() {
                   rows={4} // 必要に応じて行数を調整
                   autoComplete="future"
                   required
-                  onChange={(e) => setFuture(e.target.value)}
+                  value={future}
+                  onChange={handleFutureChange}
+                  maxLength={300} // 追加
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 />
+                <p className="mt-1 text-sm text-gray-500">
+                  {futureChars}/300 文字
+                </p>
               </div>
 
               {/* 期限の入力フィールド */}
