@@ -55,10 +55,12 @@ const Step = () => {
         if (!response.data) {
           return;
         }
+        const deadLineG = new Date(response.data.deadLine);
+        deadLineG.setHours(deadLineG.getHours());
         setGoal(response.data);
         setContent(response.data.content || "");
         setContentChars((response.data.content || "").length);
-        setDeadline(response.data.deadLine || "");
+        setDeadline(deadLineG.toLocaleString() || "");
         setFuture(response.data.future || "");
         setFutureChars((response.data.future || "").length);
         setSteps(stepList.data);
