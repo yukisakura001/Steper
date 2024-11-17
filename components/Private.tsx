@@ -187,11 +187,7 @@ export default function Private() {
             本ポリシーに関するお問い合わせは，下記の窓口までお願いいたします。
           </p>
           <ul className="list-none text-gray-700">
-            <li>住所：</li>
-            <li>社名：</li>
-            <li>代表取締役：</li>
-            <li>担当部署：</li>
-            <li>Eメールアドレス：</li>
+            <li>Eメールアドレス：yukisakuraapp@gmail.com</li>
           </ul>
         </section>
       </div>
