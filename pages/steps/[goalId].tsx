@@ -74,7 +74,7 @@ const Step = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const deadlineInUTC = new Date(deadline).toLocaleString();
+    const deadlineInUTC = new Date(deadline).toISOString();
     try {
       await apiClient.put(`/posts/goal_update/${goalId}`, {
         content: content,
@@ -90,7 +90,7 @@ const Step = () => {
 
   const handleSubmitStep = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const deadlineInUTCS = new Date(deadlineS).toLocaleString();
+    const deadlineInUTCS = new Date(deadlineS).toISOString();
     try {
       await apiClient.post(`/posts/step_post/${goalId}`, {
         content: contentS,

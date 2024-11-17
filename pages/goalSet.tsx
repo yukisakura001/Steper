@@ -26,7 +26,8 @@ export default function GoalSet() {
   // フォーム送信ハンドラー
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const deadlineInUTC = new Date(deadline).toLocaleString();
+    const deadlineInUTC = new Date(deadline).toISOString();
+    alert(deadlineInUTC);
     try {
       await apiClient.post("/posts/goals_post", {
         content: content,
