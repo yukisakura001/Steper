@@ -26,11 +26,11 @@ export default function GoalSet() {
   // フォーム送信ハンドラー
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const deadlineInUTC = new Date(deadline).toISOString();
+    const deadlineInUTC = new Date(deadline);
     try {
       await apiClient.post("/posts/goals_post", {
         content: content,
-        deadLine: deadlineInUTC, // 期限を送信
+        deadLine: deadlineInUTC.toISOString(), // 期限を送信
         future: future,
       });
       router.push("/"); // リダイレクト
